@@ -1,12 +1,11 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    kotlin("jvm") version "2.3.20"
     kotlin("plugin.serialization") version "2.3.20"
     id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
-    id("com.android.application")
     id("com.google.gms.google-services")
 }
 
@@ -37,8 +36,10 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = "11"
+    kotlin {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_17)
+        }
     }
     buildFeatures {
         compose = true
@@ -47,7 +48,7 @@ android {
 
 dependencies {
     val nav_version = "2.9.8"
-
+    val room_version = "2.8.4"
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -76,8 +77,9 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0")
     implementation(platform("com.google.firebase:firebase-bom:34.18.0"))
     implementation("com.google.firebase:firebase-analytics")
-
+    implementation("com.google.dagger:hilt-android:2.57.1")
+    ksp("com.google.dagger:hilt-android-compiler:2.57.1")
+    implementation("androidx.room:room-runtime:${room_version}")
+    ksp("androidx.room:room-compiler:$room_version")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
-
-
 }
