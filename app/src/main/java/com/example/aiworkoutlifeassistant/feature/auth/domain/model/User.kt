@@ -1,0 +1,7 @@
+package com.example.aiworkoutlifeassistant.feature.auth.domain.model
+
+data class User(
+    val uid: String,
+    val name: String,
+    val email: String
+)
