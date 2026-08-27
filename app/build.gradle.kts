@@ -11,7 +11,7 @@ plugins {
 
 android {
     namespace = "com.example.aiworkoutlifeassistant"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.example.aiworkoutlifeassistant"
@@ -70,10 +70,10 @@ dependencies {
     implementation("androidx.navigation:navigation-ui:${nav_version}")
     implementation("androidx.navigation:navigation-dynamic-features-fragment:${nav_version}")
     androidTestImplementation("androidx.navigation:navigation-testing:$nav_version")
-    implementation("com.squareup.retrofit2:retrofit:3.1.0-SNAPSHOT")
-    implementation("com.squareup.okhttp3:okhttp:5.5.0")
+    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("com.squareup.okhttp3:okhttp")
-    implementation("com.squareup.okhttp3:logging-interceptor")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0")
     implementation(platform("com.google.firebase:firebase-bom:34.18.0"))
     implementation("com.google.firebase:firebase-analytics")
