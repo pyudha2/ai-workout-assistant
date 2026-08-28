@@ -23,4 +23,23 @@ class AuthRepositoryImpl @Inject constructor(
             emit(Resource.Error(e.message ?: "Terjadi kesalahan saat register"))
         }
     }
+
+    override fun login(email: String, password: String): Flow<Resource<User>> = flow{
+        emit(Resource.Loading())
+        try{
+            val uid = firebaseAuthService.login(email, password)
+            Resource.Success(uid)
+        } catch (e: Exception){
+            emit(Resource.Error(e.message ?: "Email atau Password Salah"))
+        }
+    }
+
+    override fun logout() {
+        try {
+            val uid = firebaseAuthService.logout()
+            Resource.Success(uid)
+        } catch (e: Exception){
+            Resource.Error(e.message ?: "Coba Lagi Nanti")
+        }
+    }
 }
