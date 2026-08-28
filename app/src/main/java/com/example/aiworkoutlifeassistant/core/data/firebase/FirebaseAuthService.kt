@@ -11,4 +11,14 @@ class FirebaseAuthService @Inject constructor(
         val result = firebaseAuth.createUserWithEmailAndPassword(email, password)
         return result.await().user?.uid ?: throw Exception("Register Gagal, UID tidak ditemukan")
     }
+
+    suspend fun login(email: String, password: String): String{
+        val result = firebaseAuth.signInWithEmailAndPassword(email, password)
+        return result.await().user?.uid ?: throw Exception("Login Gagal, Email tidak ditemukan")
+    }
+
+    fun logout(){
+        val result = firebaseAuth.signOut()
+        return result
+    }
 }

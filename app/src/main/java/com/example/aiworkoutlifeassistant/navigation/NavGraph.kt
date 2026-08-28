@@ -5,27 +5,25 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.aiworkoutlifeassistant.feature.auth.presentation.register.RegisterScreen
+import com.example.aiworkoutlifeassistant.feature.auth.presentation.login.LoginScreen
 
 @Composable
 fun NavGraph(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = Screen.Register.route
+        startDestination = Screen.Login.route
     ) {
-        composable(Screen.Register.route) {
-            RegisterScreen(
-                onRegisterSuccess = {
+        composable(Screen.Login.route) {
+            LoginScreen(
+                onLoginSuccess = {
                     navController.navigate(Screen.Home.route) {
-                        popUpTo(Screen.Register.route) { inclusive = true }
+                        popUpTo(Screen.Login.route) { inclusive = true }
                     }
+                },
+                onNavigateToRegister = {
+                    navController.navigate(Screen.Register.route)
                 }
             )
-        }
-
-        composable(Screen.Login.route) {
-            // placeholder, nanti diisi pas LoginScreen dibikin
-            Text("Login Screen")
         }
 
         composable(Screen.Home.route) {
