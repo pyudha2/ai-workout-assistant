@@ -1,16 +1,21 @@
+# Build files
 *.iml
 .gradle
-/local.properties
-/.idea
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
 /build
 /captures
 .externalNativeBuild
 .cxx
-local.properties
+
+# Local config
+/local.properties
+
+# IDE
+/.idea
+.DS_Store
+
+# Keystore (kalau ada signing config)
+*.jks
+*.keystore
+
+# Firebase (uncomment kalau nggak mau file config ke-share ke semua kolaborator)
+google-services.json
