@@ -5,12 +5,14 @@ import com.example.aiworkoutlifeassistant.core.data.firebase.FirestoreService
 import com.example.aiworkoutlifeassistant.core.utils.Resource
 import com.example.aiworkoutlifeassistant.feature.auth.domain.model.User
 import com.example.aiworkoutlifeassistant.feature.auth.domain.repository.AuthRepository
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
     private val firebaseAuthService: FirebaseAuthService,
+    private val firebaseAuth: FirebaseAuth,
     private val firestoreService: FirestoreService
 ) : AuthRepository {
     override fun register(name: String, email: String, password: String): Flow<Resource<User>> = flow {
@@ -35,11 +37,6 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override fun logout() {
-        try {
-            val uid = firebaseAuthService.logout()
-            Resource.Success(uid)
-        } catch (e: Exception){
-            Resource.Error(e.message ?: "Coba Lagi Nanti")
-        }
+        firebaseAuth.signOut()
     }
 }
