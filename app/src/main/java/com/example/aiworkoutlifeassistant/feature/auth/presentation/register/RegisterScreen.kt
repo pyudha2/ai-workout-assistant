@@ -8,6 +8,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -25,7 +26,8 @@ import com.example.aiworkoutlifeassistant.feature.auth.presentation.login.LoginS
 @Composable
 fun RegisterScreen(
     viewModel: RegisterViewModel = hiltViewModel(),
-    onRegisterSuccess: () -> Unit = {}
+    onRegisterSuccess: () -> Unit = {},
+    onNavigateToLogin: () -> Unit = {}
 ){
     var name by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
@@ -66,6 +68,7 @@ fun RegisterScreenContent(
     onPasswordChange: (String) -> Unit,
     onConfirmPasswordChange: (String) -> Unit,
     onRegisterClick: () -> Unit,
+    onNavigateToLogin: () -> Unit = {}
 ){
     Column(
         modifier = Modifier
@@ -116,6 +119,13 @@ fun RegisterScreenContent(
             ){
                 Text("Daftar")
             }
+        }
+
+        TextButton(
+            onClick = onNavigateToLogin,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Sudah Punya Akun? Login")
         }
     }
 }

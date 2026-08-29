@@ -16,9 +16,4 @@ class FirebaseAuthService @Inject constructor(
         val result = firebaseAuth.signInWithEmailAndPassword(email, password)
         return result.await().user?.uid ?: throw Exception("Login Gagal, Email tidak ditemukan")
     }
-
-    fun logout(){
-        val result = firebaseAuth.signOut()
-        return result
-    }
 }
