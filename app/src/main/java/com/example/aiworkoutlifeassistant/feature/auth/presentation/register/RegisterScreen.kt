@@ -53,6 +53,7 @@ fun RegisterScreen(
         onPasswordChange = { password = it },
         onConfirmPasswordChange = { confirmPassword = it },
         onRegisterClick = { viewModel.register(name, email, password, confirmPassword) },
+        onNavigateToLogin = onNavigateToLogin
     )
 }
 
