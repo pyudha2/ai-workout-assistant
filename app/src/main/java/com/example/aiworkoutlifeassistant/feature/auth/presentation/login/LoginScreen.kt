@@ -46,7 +46,8 @@ fun LoginScreen(
         state = state,
         onEmailChange = { email = it },
         onPasswordChange = { password = it },
-        onLoginClick = { viewModel.login(email, password) }
+        onLoginClick = { viewModel.login(email, password) },
+        onNavigateToRegister = onNavigateToRegister
     )
 }
 
