@@ -30,7 +30,7 @@ class AuthRepositoryImpl @Inject constructor(
         emit(Resource.Loading())
         try{
             val uid = firebaseAuthService.login(email, password)
-            Resource.Success(uid)
+            emit(Resource.Success(User(uid, "", email)))
         } catch (e: Exception){
             emit(Resource.Error(e.message ?: "Email atau Password Salah"))
         }
