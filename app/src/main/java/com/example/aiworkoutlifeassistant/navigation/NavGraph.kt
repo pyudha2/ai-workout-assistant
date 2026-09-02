@@ -8,6 +8,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.aiworkoutlifeassistant.feature.auth.presentation.login.LoginScreen
 import com.example.aiworkoutlifeassistant.feature.auth.presentation.register.RegisterScreen
 import com.example.aiworkoutlifeassistant.feature.home.HomeScreen
+import com.example.aiworkoutlifeassistant.feature.workout.presentation.WorkoutChatScreen
 import com.google.firebase.auth.FirebaseAuth
 
 @Composable
@@ -44,6 +45,9 @@ fun NavGraph(navController: NavHostController = rememberNavController()) {
                     }
                 }
             )
+        }
+        composable(Screen.WorkoutChat.route) {
+            WorkoutChatScreen()
         }
     }
 }
