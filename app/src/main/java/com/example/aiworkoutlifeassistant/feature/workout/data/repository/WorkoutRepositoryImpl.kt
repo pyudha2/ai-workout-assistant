@@ -19,7 +19,7 @@ class WorkoutRepositoryImpl @Inject constructor(
     private val firestoreService: FirestoreService
 ) : WorkoutRepository {
     override suspend fun sendMessage(uid: String, prompt: String): Resource<String> {
-        return try {
+        try {
             val userMessage = ChatMessage(role = "user", text = prompt, timestamp = System.currentTimeMillis())
             firestoreService.saveChatMessage(uid, ChatMessageEntity.fromDomain(userMessage))
 
@@ -37,13 +37,15 @@ class WorkoutRepositoryImpl @Inject constructor(
             val assistantMessage = ChatMessage(role = "assistant", text = replyText, timestamp = System.currentTimeMillis())
             firestoreService.saveChatMessage(uid, ChatMessageEntity.fromDomain(assistantMessage))
 
-            Resource.Success(replyText)
-        }catch (e: Exception){
-            Resource.Error(e.message ?: "Unknown error")
+            return Resource.Success(data = replyText)
+        } catch (e: Exception){
+            return Resource.Error(e.message ?: "Unknown error")
         }
     }
 
     override fun getChatHistory(uid: String): Flow<List<ChatMessage>> =
-        firestoreService.getChatHistory(uid).map { list -> list.map { it.toDomain() } }
-
+        firestoreService.getChatHistory(uid).map {
+            list ->
+            return@map list.map { it.toDomain() }
+        }
 }
