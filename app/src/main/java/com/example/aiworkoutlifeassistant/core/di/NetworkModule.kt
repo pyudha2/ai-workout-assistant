@@ -2,7 +2,7 @@ package com.example.aiworkoutlifeassistant.core.di
 
 import com.example.aiworkoutlifeassistant.core.network.AnthropicService
 import com.example.aiworkoutlifeassistant.core.utils.Constants
-import com.google.firebase.BuildConfig
+import com.example.aiworkoutlifeassistant.BuildConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
