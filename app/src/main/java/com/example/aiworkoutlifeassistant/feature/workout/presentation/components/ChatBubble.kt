@@ -10,6 +10,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.aiworkoutlifeassistant.feature.workout.domain.model.ChatMessage
 
@@ -31,4 +32,16 @@ fun ChatBubble(message: ChatMessage){
             color = if (isUser) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun ChatBubbleUserPreview(){
+    ChatBubble(message = ChatMessage(role = "user", text = "Gimana form squat gw?", timestamp = 0L))
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun ChatBubbleAssistantPreview(){
+    ChatBubble(message = ChatMessage(role = "assistant", text = "Coba jaga lutut sejajar sama ujung kaki ya.", timestamp = 0L))
 }
