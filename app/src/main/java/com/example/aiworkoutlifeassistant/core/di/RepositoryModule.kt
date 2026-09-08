@@ -1,7 +1,7 @@
 package com.example.aiworkoutlifeassistant.core.di
 
-import com.example.aiworkoutlifeassistant.feature.workout.data.repository.WorkoutRepositoryImpl
-import com.example.aiworkoutlifeassistant.feature.workout.domain.repository.WorkoutRepository
+import com.example.aiworkoutlifeassistant.feature.settings.data.SettingsRepositoryImpl
+import com.example.aiworkoutlifeassistant.feature.settings.domain.repository.SettingsRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -13,5 +13,5 @@ import javax.inject.Singleton
 abstract class RepositoryModule {
     @Binds
     @Singleton
-    abstract fun bindWorkoutRepository(impl: WorkoutRepositoryImpl): WorkoutRepository
+    abstract fun bindWorkoutRepository(impl: SettingsRepositoryImpl): SettingsRepository
 }

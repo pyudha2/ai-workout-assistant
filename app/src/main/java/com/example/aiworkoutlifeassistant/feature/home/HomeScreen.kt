@@ -32,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.aiworkoutlifeassistant.core.presentation.components.AppTopBar
 import com.example.aiworkoutlifeassistant.feature.workout.domain.model.ChatMessage
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -132,14 +133,7 @@ fun HomeScreenContent(
 ) {
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text("Home") },
-                navigationIcon = {
-                    IconButton(onClick = onMenuClick) {
-                        Icon(Icons.Filled.Menu, contentDescription = "Menu")
-                    }
-                }
-            )
+            AppTopBar(onMenuClick = onMenuClick)
         }
     ) { paddingValues ->
         Column(

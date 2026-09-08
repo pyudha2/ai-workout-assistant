@@ -9,7 +9,7 @@ import com.example.aiworkoutlifeassistant.feature.auth.presentation.login.LoginS
 import com.example.aiworkoutlifeassistant.feature.auth.presentation.register.RegisterScreen
 import com.example.aiworkoutlifeassistant.feature.home.HomeScreen
 import com.example.aiworkoutlifeassistant.feature.profile.ProfileScreen
-import com.example.aiworkoutlifeassistant.feature.settings.SettingsScreen
+import com.example.aiworkoutlifeassistant.feature.settings.presentation.SettingsScreen
 import com.example.aiworkoutlifeassistant.feature.workout.presentation.WorkoutChatScreen
 import com.google.firebase.auth.FirebaseAuth
 
@@ -55,10 +55,15 @@ fun NavGraph(navController: NavHostController = rememberNavController()) {
             WorkoutChatScreen()
         }
         composable(Screen.Profile.route) {
-            ProfileScreen()
+            ProfileScreen(onBackClick = { navController.popBackStack() })
         }
         composable(Screen.Settings.route) {
-            SettingsScreen()
+            SettingsScreen(
+                onBackCLick = { navController.popBackStack() },
+                onAccountDeleted.navigate(Screen.Login.route){
+                    popUpTo(0) { inclusive = true }
+                }
+            )
         }
     }
 }
