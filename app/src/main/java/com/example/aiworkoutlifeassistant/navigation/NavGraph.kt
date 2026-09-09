@@ -59,9 +59,11 @@ fun NavGraph(navController: NavHostController = rememberNavController()) {
         }
         composable(Screen.Settings.route) {
             SettingsScreen(
-                onBackCLick = { navController.popBackStack() },
-                onAccountDeleted.navigate(Screen.Login.route){
-                    popUpTo(0) { inclusive = true }
+                onBackClick = { navController.popBackStack() },
+                onAccountDeleted = {
+                    navController.navigate(Screen.Login.route) {
+                        popUpTo(0) { inclusive = true }
+                    }
                 }
             )
         }
