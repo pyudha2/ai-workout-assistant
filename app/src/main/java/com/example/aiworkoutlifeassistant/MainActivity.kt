@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.aiworkoutlifeassistant.feature.settings.presentation.SettingsViewModel
 import com.example.aiworkoutlifeassistant.navigation.NavGraph
