@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.aiworkoutlifeassistant.feature.settings.domain.repository.SettingsRepository
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthRecentLoginRequiredException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -13,17 +14,18 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-sealed class SettingsActionResult{
+sealed class SettingsActionResult {
     object Idle : SettingsActionResult()
     object Loading : SettingsActionResult()
     object Success : SettingsActionResult()
-    data class Error(val message: String): SettingsActionResult()
+    object RequiresRecentLogin : SettingsActionResult()
+    data class Error(val message: String) : SettingsActionResult()
 }
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val settingsRepository: SettingsRepository
-): ViewModel(){
+) : ViewModel() {
     val isDarkMode: StateFlow<Boolean> = settingsRepository.isDarkMode
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
 
@@ -36,32 +38,32 @@ class SettingsViewModel @Inject constructor(
     private val _deleteAccountResult = MutableStateFlow<SettingsActionResult>(SettingsActionResult.Idle)
     val deleteAccountResult: StateFlow<SettingsActionResult> = _deleteAccountResult
 
-    fun setDarkMode(enabled: Boolean){
+    fun setDarkMode(enabled: Boolean) {
         viewModelScope.launch { settingsRepository.setDarkMode(enabled) }
     }
 
-    fun setNotificationsEnabled(enabled: Boolean){
+    fun setNotificationsEnabled(enabled: Boolean) {
         viewModelScope.launch { settingsRepository.setNotificationEnabled(enabled) }
     }
 
-    fun changePassword(currentPassword: String, newPassword: String){
+    fun changePassword(newPassword: String) {
         val user = FirebaseAuth.getInstance().currentUser
-        val email = user?.email
-        if (user == null || email == null){
-            _changePasswordResult.value = SettingsActionResult.Error("User tidak Ditemukan")
+        if (user == null) {
+            _changePasswordResult.value = SettingsActionResult.Error("User tidak ditemukan")
             return
         }
 
         _changePasswordResult.value = SettingsActionResult.Loading
-        val credential = EmailAuthProvider.getCredential(email, currentPassword)
-        user.reauthenticate(credential)
+        user.updatePassword(newPassword)
             .addOnSuccessListener {
-                user.updatePassword(newPassword)
-                    .addOnSuccessListener { _changePasswordResult.value = SettingsActionResult.Success }
-                    .addOnFailureListener { _changePasswordResult.value = SettingsActionResult.Error(it.message ?: "Gagal update password") }
+                _changePasswordResult.value = SettingsActionResult.Success
             }
-            .addOnFailureListener {
-                _changePasswordResult.value = SettingsActionResult.Error("Password saat ini salah")
+            .addOnFailureListener { exception ->
+                _changePasswordResult.value = if (exception is FirebaseAuthRecentLoginRequiredException) {
+                    SettingsActionResult.RequiresRecentLogin
+                } else {
+                    SettingsActionResult.Error(exception.message ?: "Gagal update password")
+                }
             }
     }
 
@@ -85,11 +87,11 @@ class SettingsViewModel @Inject constructor(
             }
     }
 
-    fun resetChangePasswordResult(){
+    fun resetChangePasswordResult() {
         _changePasswordResult.value = SettingsActionResult.Idle
     }
 
-    fun resetDeleteAccountResult(){
+    fun resetDeleteAccountResult() {
         _deleteAccountResult.value = SettingsActionResult.Idle
     }
 }
