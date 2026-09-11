@@ -19,6 +19,9 @@ class LoginViewModel @Inject constructor(
     private val _loginState = MutableStateFlow<Resource<User>?>(null)
     val loginState: StateFlow<Resource<User>?> = _loginState.asStateFlow()
 
+    private val _resetPasswordState = MutableStateFlow<Resource<Unit>?>(null)
+    val resetPasswordState: StateFlow<Resource<Unit>?> = _resetPasswordState.asStateFlow()
+
     fun login(email: String, password: String){
         if (email.isBlank() || password.isBlank()){
             _loginState.value = Resource.Error("Semua Kolom Wajib Diisi")
@@ -29,5 +32,21 @@ class LoginViewModel @Inject constructor(
                     result -> _loginState.value = result
             }
         }
+    }
+
+    fun resetPassword(email: String) {
+        if (email.isBlank()) {
+            _resetPasswordState.value = Resource.Error("Email wajib diisi")
+            return
+        }
+        viewModelScope.launch {
+            authRepository.resetPassword(email).collect { result ->
+                _resetPasswordState.value = result
+            }
+        }
+    }
+
+    fun resetPasswordStateIdle() {
+        _resetPasswordState.value = null
     }
 }
