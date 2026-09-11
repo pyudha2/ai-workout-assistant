@@ -39,4 +39,15 @@ class AuthRepositoryImpl @Inject constructor(
     override fun logout() {
         firebaseAuth.signOut()
     }
+
+    override fun resetPassword(email: String): Flow<Resource<Unit>> = flow {
+        emit(Resource.Loading())
+        try {
+            firebaseAuthService.sendPasswordResetEmail(email)
+            emit(Resource.Success(Unit))
+        } catch (e: Exception) {
+            // Sengaja tetep Success meski email nggak ketemu, biar nggak bocorin info akun mana yang terdaftar
+            emit(Resource.Success(Unit))
+        }
+    }
 }
